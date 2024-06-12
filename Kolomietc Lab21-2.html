@@ -1,0 +1,28 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const port = 3000;
+
+// Parse application/json
+app.use(bodyParser.json());
+
+// Serve static files (not necessary for this example but good for general purposes)
+app.use(express.static('public'));
+
+// Endpoint for calculating square of a number
+app.post('/calculate-square', (req, res) => {
+    const { number } = req.body;
+
+    if (number === undefined || isNaN(number)) {
+        res.status(400).json({ error: 'Неправильні дані. Очікується числове значення.' });
+        return;
+    }
+
+    const square = number * number;
+    res.json({ square });
+});
+
+// Start server
+app.listen(port, () => {
+    console.log(`Сервер запущено на порту ${port}`);
+});
